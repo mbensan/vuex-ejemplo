@@ -1,17 +1,24 @@
+
 <template>
-  <div id="app">
+  <div id="app" class="container">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <MovieList title="Películas de Comedia" :movies="comedyMovies" />
+    <MovieList title="Películas Familares" :movies="familyMovies" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { mapGetters } from 'vuex';
+import MovieList from './components/MovieList.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    MovieList
+  },
+  computed: {
+    // forma abreviada de traerme los getters
+    ...mapGetters(["comedyMovies", "familyMovies"])
   }
 }
 </script>
