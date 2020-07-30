@@ -1,26 +1,35 @@
 <template>
   <div class="row">
     <h3>{{ title }}</h3>
-    <div class="col s4 m4" v-for="movie in movies" :key="movie.id">
-      <div class="card">
-        <div class="card-image">
-          <img :src="movie.image">
-          <span class="card-title">Card Title</span>
-        </div>
-        <div class="card-content">
-          <p>{{ movie.title }}</p>
-        </div>
-      </div>
-    </div>
+    <MovieItem v-for="movie in Movies" :key="movie.id" :movie=movie />
   </div>
 </template>
 
 <script>
+import MovieItem from '@/components/MovieItem.vue'
+
 export default {
   name: 'MovieList',
+  components: {
+    MovieItem
+  },
   props: {
     title: String,
-    movies: Array
+    genre: String
+  },
+  computed: {
+    Movies() {
+      /*
+      if (this.genre == 'Comedy') {
+        return this.$store.getters.comedyMovies
+      } else if (this.genre == 'Family') {
+        return this.$store.getters.familyMovies
+      } else {
+        return []
+      }
+      */
+     return this.$store.getters.getMoviesByGenre(this.genre);
+    }
   }
 }
 </script>
