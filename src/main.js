@@ -28,7 +28,11 @@ const store = new Vuex.Store({
     // (una función que retorna otra función)
     getMoviesByGenre() {
       return function(genre) {
-        return store.state.movies.filter(movie => movie.genre == genre)
+        // películas por genero
+        let genreMovies = store.state.movies.filter(movie => movie.genre == genre)
+        // las ordenamos por id
+        genreMovies.sort((mov1, mov2) => mov2.id - mov1.id);
+        return genreMovies
       }
     }
   },
@@ -38,19 +42,13 @@ const store = new Vuex.Store({
       // 1. Nos traemos la película
       const movieEncontrada = state.movies.find(movie => movie.id == idMovie);
 
-      // 2.Modificar la pelicula encontrada (forma mutada)
-      movieEncontrada.score = movieEncontrada.score + 1;
-      /*
-      3. Forma Inmutada
       const movieActualizada = {
         ...movieEncontrada,
         score: movieEncontrada.score + 1
       }
 
-      state.movies = [
-        ...state.movies.filter(movie => movie.id != idMovie),
-        movieActualizada
-      ]*/
+      state.movies = [...state.movies.filter(mov => mov.id != movieEncontrada.id), movieActualizada]
+      
     },
     substractMovieScore(state, idMovie) {
       // 1. Nos traemos la película
@@ -58,6 +56,25 @@ const store = new Vuex.Store({
 
       // 2.Modificar la pelicula encontrada (forma mutada)
       movieEncontrada.score = movieEncontrada.score - 1;
+    },
+    add_movie(state, movie) {
+      console.log(movie)
+      const newMovie = {title: movie.title, score: 100, id: 8, genre: 'Family',
+        image: 'https://lh3.googleusercontent.com/7OTx1DboUIszuMbHZwFHhYOLRQspWozEx7xFtYKG674mtGA_PSRPGIdtv7jmR4jQ9d0'}
+      
+        state.movies = [...state.movies, newMovie]
+    }
+  },
+  // son para cuando hacemos una llamada asíncrona (que no bloquea) y después hacemos una mutación
+  actions: {
+    add_movie(context) {
+      // primero hacemos la llamada asíncrona
+      fetch('https://swapi.dev/api/films/1/')
+      .then(data => data.json())
+      .then(function(movie){
+        // cuando regresa el dato, llamamos a la mutación correspondiente 
+        context.commit('add_movie', movie)
+      })
     }
   }
 })

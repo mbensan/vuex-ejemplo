@@ -1,6 +1,7 @@
 
 <template>
   <div id="app" class="container">
+    <a class="waves-effect waves-light btn" @click="add_movie">Agregar película</a>
     <MovieList title="Películas de Comedia" genre="Comedy" />
     <MovieList title="Películas Familares" genre="Family" />
     <MovieList title="Películas de Terror" genre="Horror" />
@@ -17,20 +18,12 @@ export default {
   components: {
     MovieList
   },
-  /*
-  computed: {
-    // forma abreviada de traerme los getters
-    comedyMovies() {
-      return this.$store.getters.comedyMovies
-    },
-    familyMovies() {
-      return this.$store.getters.familyMovies
+  methods: {
+    add_movie() {
+      // acá gatillamos la acción del store
+      this.$store.dispatch('add_movie')
     }
-    //...mapGetters(["comedyMovies", "familyMovies"])
-  },
-  mounted() {
-    console.log(this.$store.getters.comedyMovies)
-  }*/
+  }
 }
 </script>
 
