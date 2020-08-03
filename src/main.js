@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 import App from './App.vue'
 
 Vue.use(Vuex)
@@ -79,8 +80,10 @@ const store = new Vuex.Store({
   }
 })
 
-
 Vue.config.productionTip = false
+
+// Vamos a vincular axios a todos nuestros componentes
+Vue.prototype.axios = axios;
 
 new Vue({
   render: h => h(App),
