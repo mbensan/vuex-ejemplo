@@ -1,8 +1,8 @@
 
 <template>
   <div id="app" class="container">
+    <Pokemon />
     <a class="waves-effect waves-light btn" @click="add_movie">Agregar película</a>
-    <h3>{{ nombre_personaje }}</h3>
     <MovieList title="Películas de Comedia" genre="Comedy" />
     <MovieList title="Películas Familares" genre="Family" />
     <MovieList title="Películas de Terror" genre="Horror" />
@@ -12,16 +12,13 @@
 
 <script>
 import MovieList from './components/MovieList.vue'
+import Pokemon from './components/Pokemon.vue'
 
 export default {
   name: 'App',
   components: {
-    MovieList
-  },
-  data() {
-    return {
-      nombre_personaje: ''
-    }
+    MovieList,
+    Pokemon
   },
   methods: {
     add_movie() {
@@ -30,16 +27,6 @@ export default {
     }
   },
   mounted() {
-    // axios en forma de promesas (ES6)
-    this.axios.get('https://swapi.dev/api/people/1/')
-    .then((datos) => {
-      const luke = datos.data;
-      this.nombre_personaje = luke.name;
-    })
-    .catch((error) => {
-      alert(error);
-    });
-
     // axios en forma de asyc/await (ES7)
     const datosC3PO = async () => {
       const c3po = await this.axios.get('https://swapi.dev/api/people/2/')
